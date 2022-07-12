@@ -17,7 +17,7 @@ public class JDBCExample04 {
 	
 	private final static String JDBCURL = "jdbc:oracle:thin:@db20220510180830_high?TNS_ADMIN=C:/opt/OracleCloudWallet/Wallet_DB20220510180830";
 	private final static String USER = "HR";
-	private final static String PASS = "Oracle12345678";
+	private static String PASS = "1";
 	
 	public static void main(String[] args) {
 		log.trace("main({}) invoked", Arrays.toString(args));
