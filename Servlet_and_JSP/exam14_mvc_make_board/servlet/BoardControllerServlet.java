@@ -91,6 +91,7 @@ public class BoardControllerServlet extends HttpServlet {
 					
 					String title = request.getParameter("title");
 					String content = request.getParameter("content");
+					log.info("글을 등록합니다. title : {}, content : {}", title, content);
 					
 					articleVO = new ArticleVO();
 					
@@ -114,17 +115,111 @@ public class BoardControllerServlet extends HttpServlet {
 				case "/viewArticle.do" : {
 					
 					String articleNO = request.getParameter("articleNO");
+					log.info("이 글을 조회합니다. articleNO : {}", articleNO);
 					
-					articleVO
-
+					
+					if(articleNO != null && !"".equals(articleNO)){
+						articleVO = boardService.viewArticle(Integer.parseInt(articleNO));
+					} else {
+						articleVO = (ArticleVO) request.getAttribute("articleVO");
+					}
+					
+					log.info("articleVO : {}", articleVO);
+					
+					articlesList = boardService.listArticles();
+					request.setAttribute("articlesList", articlesList);
+					
+					request.setAttribute("articleVO", articleVO);
+					
+					nextPage = "/board01/viewArticle.jsp";
+					
+					RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+					dispatch.forward(request, response);
 					
 					break;
-				}					
+				}
+				
+				case "/modArticle.do" : {
+					
+					String articleNO = request.getParameter("articleNO");
+					String content = request.getParameter("content");
+					log.info("이 글을 수정합니다 articleNO : {}, content : {}", articleNO, content);
+					
+					
+					articleVO = new ArticleVO();
+					articleVO.setContent(content);
+					
+					if(articleNO != null && !"".equals(articleNO)) {
+						articleVO.setArticleNO(Integer.parseInt(articleNO));
+					}
+
+					boardService.modArticle(articleVO);
+					
+					
+					nextPage = "viewArticle.do"+"?articleNO="+articleNO;
+					
+					response.sendRedirect(nextPage);
+					
+					break;
+					
+				}
+				
+				case "/removeArticle.do" : {
+					Integer articleNO = Integer.parseInt(request.getParameter("articleNO"));
+					log.info("{}번 글을 삭제합니다.", articleNO);
+					
+					List<Integer> articleNOList = boardService.removeArticle(articleNO);
+					
+					nextPage = "listArticles.do";
+					
+					response.sendRedirect(nextPage);
+					break;
+					
+				}	
+				
+				case "/replyForm.do" : {
+					nextPage = "/board01/replyForm.jsp";
+					
+					Integer parentNO = Integer.parseInt(request.getParameter("parentNO"));
+					
+					request.setAttribute("parentNO", parentNO);
+					
+					RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+					dispatch.forward(request, response);
+					
+					break;
+				}
+				
+				
+				
+				
+				
+				case "/replyArticle.do" : {
+
+					Integer parentNO = Integer.parseInt(request.getParameter("parentNO"));
+					String title = request.getParameter("title");
+					String content = request.getParameter("content");
+					
+	
+					articleVO = new ArticleVO();
+					articleVO.setId("Ryan");
+					articleVO.setParentNO(parentNO);
+					articleVO.setTitle(title);
+					articleVO.setContent(content);
+					
+					boardService.addArticle(articleVO);
+					
+					nextPage = "listArticles.do";
+					
+					response.sendRedirect(nextPage);
+					
+					
+					
+					break;
+					
+				}	
 			
 			} //switch
-			
-			
-			
 			
 			
 		} catch (Exception e) {

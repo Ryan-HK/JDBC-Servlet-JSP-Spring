@@ -87,9 +87,10 @@
 
     <main>
         <div class="wrap_write">
-            <div class="write_name"><h2>새글쓰기</h2></div>
+            <div class="write_name"><h2>답글쓰기</h2></div>
             
-            <form action="/board/addArticle.do" method="post" >
+            <form action="/board/replyArticle.do" method="post" >
+                <input type="hidden" name="parentNO" value="${parentNO}">
                 <div class="write_form write_name">제목</div>
                 <div class="write_form">
                     <input type="text" name="title">
