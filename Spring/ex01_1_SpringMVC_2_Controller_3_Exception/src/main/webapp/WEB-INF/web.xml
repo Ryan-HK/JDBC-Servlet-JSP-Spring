@@ -42,6 +42,14 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		
+		<!-- Handler : 웹브라우저에서 온 요청을 실제 처리하는 컨트롤러의 메소드를 의미 -->
+		<!-- NoHandlerFoundException 예외 발생 -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
