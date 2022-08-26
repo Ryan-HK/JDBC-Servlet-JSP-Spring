@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.myapp.mapper.BoardMapper">
+    <!-- 새로운 게시물 작성 -->
+    <insert id="insert">
+        INSERT INTO tbl_board(title, content, writer) VALUES (#{title}, #{content}, #{writer})
+    </insert>
+    
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="bno" order="BEFORE" resultType="int">
+            SELECT "ISEQ$$_95260".nextval FROM dual
+        </selectKey>
+            INSERT INTO tbl_board(bno, title, content, writer)
+            VALUES (#{bno}, #{title}, #{content}, #{writer})
+    </insert>
+
+    <!-- 기존게시물 상세 조회 -->
+    <select id="select" resultType="org.zerock.myapp.domain.BoardVO">
+        SELECT * FROM tbl_board WHERE bno = #{bno}
+    </select>
+
+    <!-- 기존게시물 수정하기 -->
+    <update id="update">
+        UPDATE tbl_board
+        SET
+            title=#{title},
+            content=#{content},
+            writer=#{writer},
+            update_ts=current_date
+        WHERE
+            bno=#{bno}
+    </update>
+
+</mapper>
