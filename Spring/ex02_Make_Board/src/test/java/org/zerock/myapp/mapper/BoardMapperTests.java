@@ -1,5 +1,6 @@
 package org.zerock.myapp.mapper;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -18,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.myapp.domain.BoardDTO;
+import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.exception.DAOException;
 
+import lombok.Cleanup;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -109,6 +113,7 @@ public class BoardMapperTests {
 		
 	} // testUpdate
 	
+	@Disabled
 	@Test
 	@Order(5)
 	@DisplayName("5. BoardMapper.testDelete")
@@ -119,6 +124,35 @@ public class BoardMapperTests {
 		
 		log.info("\t+ result : {}", this.mapper.delete(36));
 	} // testDelete
+	
+	
+	@Test
+	@Order(6)
+	@DisplayName("6. BoardMapper.selectListWithPaging")
+	@Timeout(value=3, unit=TimeUnit.SECONDS)
+	void testSelectListWithPaging() throws DAOException {
+		log.trace("testSelectListWithPaging() invoked.");
+		
+		Criteria cri = new Criteria();
+		cri.setCurrPage(1);
+		cri.setAmount(10);
+		
+		@Cleanup("clear")
+		List<BoardVO> list = this.mapper.selectListWithPaging(cri);
+		
+		list.forEach(log::info);
+	} // testSelectListWithPaging
+	
+	
+	@Test
+	@Order(7)
+	@DisplayName("7. BoardMapper.getTotalCount")
+	@Timeout(value=3, unit=TimeUnit.SECONDS)
+	void testGetTotalCount() throws DAOException {
+		log.trace("testGetTotalCount() invoked.");
+		
+		log.info("\t+ totalCount : {}", this.mapper.getTotalCount());
+	} // testSelectListWithPaging
 	
 	
 

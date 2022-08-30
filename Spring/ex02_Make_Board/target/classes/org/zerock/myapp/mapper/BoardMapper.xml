@@ -32,5 +32,16 @@
         WHERE
             bno=#{bno}
     </update>
+    
+    <select id="selectListWithPaging" resultType="org.zerock.myapp.domain.BoardVO">
+        SELECT /*+ index_desc(tbl_board) */ *
+        FROM tbl_board
+        OFFSET (#{currPage} - 1 ) * #{amount} ROWS
+        FETCH NEXT #{amount} ROWS ONLY 
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT /*+ index(tbl_board) */ count(bno) FROM tbl_board
+    </select>
 
 </mapper>

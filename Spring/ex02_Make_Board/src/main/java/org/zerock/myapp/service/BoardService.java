@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.exception.ServiceException;
 
 public interface BoardService {
@@ -22,5 +23,13 @@ public interface BoardService {
 	
 	// -- 5. 기존 게시글 상세조회
 	public abstract BoardVO get(BoardDTO dto) throws ServiceException;
+	
+	// -- 6. 페이징 처리된 게시글 목록 획득
+	public abstract List<BoardVO> getListPerPage(Criteria cri) throws ServiceException;
+	
+	// -- 7. 총 게시물 개수 구하기
+	public abstract int getTotal() throws ServiceException;
+
+
 
 } // interface

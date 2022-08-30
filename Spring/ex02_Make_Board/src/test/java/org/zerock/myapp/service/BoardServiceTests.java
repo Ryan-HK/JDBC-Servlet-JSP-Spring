@@ -22,8 +22,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.exception.ServiceException;
 
+import lombok.Cleanup;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -55,7 +57,7 @@ public class BoardServiceTests {
 	} // beforeAll
 	
 	
-//	@Disabled
+	@Disabled
 	@Test
 	@Order(1)
 	@DisplayName("1. BoardService.getList()")
@@ -71,7 +73,7 @@ public class BoardServiceTests {
 	} // testGetList
 	
 	
-//	@Disabled
+	@Disabled
 	@Test
 	@Order(2)
 	@DisplayName("2. BoardService.register()")
@@ -89,7 +91,7 @@ public class BoardServiceTests {
 		
 	} // testRegister
 	
-//	@Disabled
+	@Disabled
 	@Test
 	@Order(3)
 	@DisplayName("3. BoardService.modify()")
@@ -108,7 +110,7 @@ public class BoardServiceTests {
 		
 	} // testModify
 	
-//	@Disabled
+	@Disabled
 	@Test
 	@Order(4)
 	@DisplayName("4. BoardService.remove()")
@@ -123,7 +125,7 @@ public class BoardServiceTests {
 	} // testRemove
 	
 	
-//	@Disabled
+	@Disabled
 	@Test
 	@Order(5)
 	@DisplayName("5. BoardService.get()")
@@ -138,5 +140,41 @@ public class BoardServiceTests {
 		log.info("\t+ result : {}", this.service.get(dto));
 		
 	} // testGet
+	
+	
+//	@Disabled
+	@Test
+	@Order(6)
+	@DisplayName("6. BoardService.getListPerPages()")
+	@Timeout(value=3, unit=TimeUnit.SECONDS)
+	void testGetListPerPages() throws ServiceException {
+		log.trace("testGetListPerPages() invoked.");
+		
+		Criteria cri = new Criteria();
+		
+		cri.setCurrPage(1);
+		cri.setAmount(10);
+		
+		@Cleanup("clear")
+		List<BoardVO> list = service.getListPerPage(cri);
+		
+		list.forEach(log::info);
+		
+	} // testGetListPerPages
+	
+	
+//	@Disabled
+	@Test
+	@Order(7)
+	@DisplayName("7. BoardService.getTotal")
+	@Timeout(value=3, unit=TimeUnit.SECONDS)
+	void testGetTotal() throws ServiceException {
+		log.trace("testGetTotal() invoked.");
+		
+		
+		log.info("\t+ total : {}", this.service.getTotal());
+		
+	} // testGetTotal
+	
 	
 } // end class

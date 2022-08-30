@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.exception.DAOException;
 
 public interface BoardMapper {
@@ -29,6 +30,10 @@ public interface BoardMapper {
 	@Delete(value="DELETE FROM tbl_board WHERE bno = #{bno}")
 	public abstract Integer delete(@Param("bno") Integer bno) throws DAOException;
 	
+	// 6. 페이징 처리가 적용된 게시물 목록 조회하기
+	public abstract List<BoardVO> selectListWithPaging(Criteria cri) throws DAOException;
 	
+	// 7. 총 게시물의 개수 반환
+	public abstract Integer getTotalCount() throws DAOException;
 	
 } // end interface

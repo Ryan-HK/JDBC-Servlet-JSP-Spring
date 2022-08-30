@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
+import org.zerock.myapp.domain.PageDTO;
 import org.zerock.myapp.exception.ControllerException;
 import org.zerock.myapp.service.BoardService;
 
@@ -48,7 +50,7 @@ public class BoardController {
 	//---------------------------------
 	//-- 1. 전체 게시물을 조회
 	//---------------------------------
-	@GetMapping("/list")
+//	@GetMapping("/list")
 	public void list(Model model) throws ControllerException {
 		log.trace("list() invoked.");
 		
@@ -164,6 +166,37 @@ public class BoardController {
 	} // register
 	
 	
+	//---------------------------------
+	//-- 7. 게시물 상제화면, 수정호면으로 이동
+	//---------------------------------
+	@GetMapping({"/get", "/modify"})
+	public void getAndModify() {
+		
+	} // getAndModify
+	
+	
+	
+	//---------------------------------
+	//-- 8. 전체게시물 조회 (페이징 처리)
+	//---------------------------------
+	@GetMapping("/list")
+	public void listPerPage(Criteria cri, Model model) throws ControllerException {
+		log.trace("listPerPage({}) invoked.", cri);
+		
+		try {
+			
+			List<BoardVO> list = service.getListPerPage(cri);
+			
+			PageDTO pageDTO = new PageDTO(cri, this.service.getTotal());
+			
+			model.addAttribute("board", list);
+			model.addAttribute("pageMaker", pageDTO);
+			
+		} catch (Exception e) {
+			throw new ControllerException(e);
+		}
+		
+	} // listPerPage
 	
 
 } // end class

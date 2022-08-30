@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.BoardVO;
+import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.exception.ServiceException;
 import org.zerock.myapp.mapper.BoardMapper;
 
@@ -79,5 +80,31 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 	} // get
+
+	@Override
+	public List<BoardVO> getListPerPage(Criteria cri) throws ServiceException {
+		log.trace("getListPerPages({}) invoked.", cri);
+		
+		try {
+			
+			return this.mapper.selectListWithPaging(cri);
+			
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+	} // getListPerPages
+
+	@Override
+	public int getTotal() throws ServiceException {
+		log.trace("getTotal() invoked.");
+		
+		try {
+			
+			return this.mapper.getTotalCount();
+			
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+	} // getTotal
 
 } // end class
