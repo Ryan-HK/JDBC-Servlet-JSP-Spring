@@ -5,95 +5,66 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>list</title>
-	
-	 <!-- jQuery 라이브러리 연동 방법 - 네트워크 전송방법 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.0/jquery-migrate.min.js"></script>
-	
-	
 	<link rel="stylesheet" href="/resources/css/default.css">
 	<link rel="stylesheet" href="/resources/css/ui.css">
 	<link rel="stylesheet" href="/resources/css/ui-page.css">
 	<link rel="stylesheet" href="/resources/css/font.css">
 	<link rel="stylesheet" href="/resources/css/board-list">
 
+	 <!-- jQuery 라이브러리 연동 방법 - 네트워크 전송방법 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.0/jquery-migrate.min.js"></script>
+	
+
 	<style>
-		/* 게시판 전체영역 */
-		.board {
+		/* 게시판 - 전체 영역 */
+		.board-register {
 			display: flex;
 			flex-direction: column;
+			
 
-			width: 100%;
-
+			height: 100%;;
+			align-items: center;
 			background-color: white;
 			/* border: 1px solid red; */
 		}
 
-		
-		.board-head {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-			height: 30px;
-			text-align: center;
-			border-bottom: 1px double grey;
-		}
-
-	
-		.board-content {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-			height: 24px;
-		}
-
-		
-		.board-col1 {
-			width: 10%;
-			text-align: center;
-			display: flex;
-		}
-		.board-col2 {
-			width: 50%;
-			margin-left: 20px;
-			display: flex;
-		}
-
-		.board-col2 a {
+		.board-title {
+			/* border: 1px solid blue; */
 			width: 100%;
-			cursor: pointer;
-			text-decoration: none;
+			padding: 10px 10px;
 		}
 
-		.board-col2 a:hover {
-			background-color: rgb(250,250,250);
-			
-		}
-
-		.board-col3 {
+		.register-title {
 			display: flex;
-			width: 20%;
-			text-align: center;
-			flex-wrap: wrap;
-			padding: 10px;;
-			
+			justify-content: center;
+			/* border: 1px solid blue; */
+			width: 100%;
 		}
-		.board-col4 {
+
+		.register-writer {
 			display: flex;
-			width: 20%;
-			text-align: center;
-			flex-wrap: wrap;
+			justify-content: center;
+			/* border: 1px solid blue; */
+			width: 100%;
 		}
 
-		
-		.board-top {
-			text-align: right;
-			margin-bottom: 10px;
+		.register-content {
+			display: flex;
+			justify-content: center;
+			/* border: 1px solid blue; */
+			width: 100%;
+
 		}
 
-		#btn-board-register, #btn-board-hot{
+		.register-btns {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			/* border: 1px solid blue; */
+		}
+
+		.register-btn {
 			background-color: #666;
 			color: white;
 
@@ -103,58 +74,42 @@
 
 			margin: 10px 10px;
 		}
-		
-		#btn-board-register:hover {
-			border: 1px solid yellow;
-		}
 
-
-		/* 페이징처리 */
-		.board-footer {
+		.register-col1 {
 			display: flex;
-			justify-content: space-between;
-		}
-
-		.board-footer ul {
-			display: flex;
-			/* border: 1px solid blue; */
-		}
-
-		.board-footer ul li {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			list-style: none;
-			width: 30px;
-		}
-
-		.board-footer ul li a {
-			text-decoration: none;
-			text-align: center;
+			/* border: 1px solid green; */
 			width: 100%;
 		}
+		
 
-		.currPage {
-			background-color: rgb(182, 238, 182);
-		}
-
-		.prev {
-			width: 50px !important;
+		.register-col2 {
+			width: 500px;
+			height: 30px;
 		}
 		
-		.next {
-			width: 50px !important;
+		.register-col3 {
+			width: 500px;
+		}
+
+		.register-text {
+			display: flex;
+			justify-content: center;
+			width: 500px;
+
+			margin-top: 10px;
+
+			/* border: 5px solid red; */
 		}
 
 	</style>
 
 	<script>
 		$(function() {
-			$("#btn-board-register").on('click', function(){
-				location.href="/board/register";
+			$("#list-btn").on('click', function(){
+				console.log("리스트로 이동");
+				location.href = "/board/list?currPage=${cri.currPage}";
 			})
 		})
-		
 	</script>
 
 </head>
@@ -189,50 +144,40 @@
 		<!-- <div class="content-container"> -->
 		<!-- primary -->
 		<section class="primary">
-			<div class="board font-16-500">
-				<div class="board-top">
-					<button type="button" id="btn-board-register" class="font-16-700">글등록</button>
+			<form class="board-register" action="/board/register" method="POST">
+				<div class="board-title">
+					<span class="font-22-700">글쓰기</span>
 				</div>
 
-				<div class="board-head font-16-700">
-					<span class="board-col1 ">글번호</span>
-					<span class="board-col2">글제목</span>
-					<span class="board-col3">글쓴이</span>
-					<span class="board-col4">날짜</span>
+				<div class="register-text">
+					<span class="register-col1 font-16-700">제목</span>
 				</div>
 
-				<c:forEach var="board" items="${board}">
-					<div class="board-content">
-						<span class="board-col1">${board.bno}</span>
-						<span class="board-col2"><a href="/board/get?bno=${board.bno}&currPage=${pageMaker.cri.currPage}">${board.title}</a></span>
-						<span class="board-col3">${board.writer}</span>
-						<span class="board-col4">
-							<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${board.insert_ts}"></fmt:formatDate>
-						</span>
-					</div>
-				</c:forEach>
+				<div class="register-title">
+					<input type="text" class="register-col2" name="title" id="title" placeholder="제목을 입력하세요." required>
+				</div>
 
-			</div>
+				<div class="register-text">
+					<span class="register-col1 font-16-700">작성자</span>
+				</div>
 
-			<div class="board-footer">
-				<button type="button" id="btn-board-hot">인기글</button>
+				<div class="register-writer">
+					<input type="text" class="register-col2" name="writer" id="writer" placeholder="작성자를 입력하세요." required>
+				</div>
 
-				<ul>
-					<c:if test="${pageMaker.prev}">
-						<li class="prev"><a href="/board/list?currPage=${pageMaker.startPage - 1}">Prev</a></li>
-					</c:if>
+				<div class="register-text">
+					<span class="register-col1 font-16-700">내용</span>
+				</div>
 
-					<c:forEach var="pageNum" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="${pageMaker.cri.currPage == pageNum ? 'currPage' : ''}">
-							<a href="/board/list?currPage=${pageNum}">${pageNum}</a>
-						</li>
-					</c:forEach>
+				<div class="register-content">
+					<textarea name="content" class="register-col3" id="content"  rows="40" required></textarea>
+				</div>
 
-					<c:if test="${pageMaker.next}">
-						<li class="next"><a href="/board/list?currPage=${pageMaker.endPage + 1}">Next</a></li>
-					</c:if>
-				</ul>
-			</div>
+				<div class="register-btns">
+					<button type="submit" class="register-btn">작성완료</button>
+					<button type="button" class="register-btn" id="list-btn">글리스트</button>
+				</div>
+			</form>
 		</section>
 
 		<!-- secondary-a -->
@@ -312,5 +257,6 @@
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque exercitationem odio, modi laboriosam a perspiciatis est delectus quisquam obcaecati vel eos natus ipsam quasi reprehenderit nihil eligendi quam aliquid! Totam vitae quis, obcaecati quos, ut aut eveniet architecto sed harum ea deleniti itaque saepe unde nulla?
 		</div>
 	</div>
+
 </body>
 </html>
