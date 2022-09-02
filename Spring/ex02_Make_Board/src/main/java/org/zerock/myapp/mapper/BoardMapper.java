@@ -1,5 +1,6 @@
 package org.zerock.myapp.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -35,5 +36,9 @@ public interface BoardMapper {
 	
 	// 7. 총 게시물의 개수 반환
 	public abstract Integer getTotalCount() throws DAOException;
+	
+	// 8. 현재 시각 구하기
+	@Select(value="SELECT current_date FROM dual")
+	public abstract Date getCurrentTime() throws DAOException;
 	
 } // end interface

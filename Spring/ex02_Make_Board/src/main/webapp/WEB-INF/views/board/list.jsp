@@ -26,6 +26,7 @@
 			width: 100%;
 
 			background-color: white;
+			padding: 10px 10px;
 			/* border: 1px solid red; */
 		}
 
@@ -46,42 +47,61 @@
 			justify-content: space-between;
 			align-items: center;
 
-			height: 24px;
+			/* height: 24px; */
+			border-bottom: 1px solid rgb(230,230,230);
+
+			/* flex-wrap: wrap; */
+			padding: 5px 0;
+		}
+
+		.board-content span {
+			/* height: 24px; */
 		}
 
 		
 		.board-col1 {
-			width: 10%;
+			width: 8%;
 			text-align: center;
 			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			flex-wrap: wrap;
 		}
 		.board-col2 {
 			width: 50%;
 			margin-left: 20px;
 			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
 		}
 
 		.board-col2 a {
 			width: 100%;
 			cursor: pointer;
 			text-decoration: none;
+			color: black;
 		}
 
 		.board-col2 a:hover {
-			background-color: rgb(250,250,250);
+			background-color: rgb(230,230,230);
 			
+		}
+
+		.board-col2 a:visited {
+			color:#A8A8A8;
 		}
 
 		.board-col3 {
 			display: flex;
+			align-items: center;
 			width: 20%;
 			text-align: center;
-			flex-wrap: wrap;
-			padding: 10px;;
-			
+			flex-wrap: wrap;		
 		}
 		.board-col4 {
 			display: flex;
+			align-items: center;
 			width: 20%;
 			text-align: center;
 			flex-wrap: wrap;
@@ -105,7 +125,7 @@
 		}
 		
 		#btn-board-register:hover {
-			border: 1px solid yellow;
+			box-shadow: 0px 0px 3px 3px rgba(255, 7, 7, 0.589);
 		}
 
 
@@ -151,7 +171,7 @@
 	<script>
 		$(function() {
 			$("#btn-board-register").on('click', function(){
-				location.href="/board/register";
+				location.href="/board/register?currPage=${pageMaker.cri.currPage}";
 			})
 		})
 		
@@ -190,6 +210,10 @@
 		<!-- primary -->
 		<section class="primary">
 			<div class="board font-16-500">
+				<div class="board-title">
+					<span class="font-22-700">자유게시판</span>
+				</div>
+
 				<div class="board-top">
 					<button type="button" id="btn-board-register" class="font-16-700">글등록</button>
 				</div>
@@ -202,12 +226,19 @@
 				</div>
 
 				<c:forEach var="board" items="${board}">
+					<fmt:formatDate pattern="yy.MM.dd" value="${board.insert_ts}" var="boardTime"/>
+					<fmt:formatDate pattern="yy.MM.dd" value="${currTime}" var="currentTime"/>
+					
+
 					<div class="board-content">
 						<span class="board-col1">${board.bno}</span>
 						<span class="board-col2"><a href="/board/get?bno=${board.bno}&currPage=${pageMaker.cri.currPage}">${board.title}</a></span>
 						<span class="board-col3">${board.writer}</span>
 						<span class="board-col4">
-							<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${board.insert_ts}"></fmt:formatDate>
+							<c:choose>
+								<c:when test="${boardTime==currentTime}"><fmt:formatDate pattern="HH:mm" value="${board.insert_ts}"></fmt:formatDate></c:when>
+								<c:otherwise><fmt:formatDate pattern="yy.MM.dd" value="${board.insert_ts}"></fmt:formatDate></c:otherwise>
+							</c:choose>
 						</span>
 					</div>
 				</c:forEach>

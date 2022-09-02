@@ -1,5 +1,6 @@
 package org.zerock.myapp.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.zerock.myapp.domain.BoardDTO;
@@ -30,6 +31,8 @@ public interface BoardService {
 	// -- 7. 총 게시물 개수 구하기
 	public abstract int getTotal() throws ServiceException;
 
+	// -- 8. 실시간 날짜표기 방식 
+	public abstract Date getCurrentTime() throws ServiceException;
 
-
+	
 } // interface

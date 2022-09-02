@@ -1,5 +1,7 @@
 package org.zerock.myapp.mapper;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -125,7 +127,7 @@ public class BoardMapperTests {
 		log.info("\t+ result : {}", this.mapper.delete(36));
 	} // testDelete
 	
-	
+	@Disabled
 	@Test
 	@Order(6)
 	@DisplayName("6. BoardMapper.selectListWithPaging")
@@ -143,7 +145,7 @@ public class BoardMapperTests {
 		list.forEach(log::info);
 	} // testSelectListWithPaging
 	
-	
+	@Disabled
 	@Test
 	@Order(7)
 	@DisplayName("7. BoardMapper.getTotalCount")
@@ -154,6 +156,31 @@ public class BoardMapperTests {
 		log.info("\t+ totalCount : {}", this.mapper.getTotalCount());
 	} // testSelectListWithPaging
 	
+	
+//	@Disabled
+	@Test
+	@Order(8)
+	@DisplayName("8. BoardMapper.getCurrentTime")
+	@Timeout(value=3, unit=TimeUnit.SECONDS)
+	void testGetCurrentTime() throws DAOException {
+		log.trace("testGetTotalCount() invoked.");
+		
+		log.info("\t+ CurrentTime : {}", this.mapper.getCurrentTime());
+		
+		Date time1 = this.mapper.getCurrentTime();
+		BoardDTO dto = new BoardDTO();
+		dto.setBno(20);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// 게시글 작성시간
+		String boardTime = sdf.format(this.mapper.select(dto).getInsert_ts());
+		// 현재 시각
+		String currTime = sdf.format(this.mapper.getCurrentTime());
+		log.info(boardTime);
+		log.info(currTime);
+		log.info("\t+ boardTime : {}", Integer.valueOf(currTime)-Integer.valueOf(boardTime));
+		
+	} // testSelectListWithPaging
 	
 
 } // end class

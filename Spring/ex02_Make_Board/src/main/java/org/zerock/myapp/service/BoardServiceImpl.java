@@ -1,5 +1,6 @@
 package org.zerock.myapp.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,19 @@ public class BoardServiceImpl implements BoardService {
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
+	} // getTotal
+
+	@Override
+	public Date getCurrentTime() throws ServiceException {
+		
+		try {
+			
+			return this.mapper.getCurrentTime();
+			
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+
 	} // getTotal
 
 } // end class

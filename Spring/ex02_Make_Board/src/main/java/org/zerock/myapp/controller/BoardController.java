@@ -1,12 +1,14 @@
 package org.zerock.myapp.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -96,7 +98,10 @@ public class BoardController {
 	//-- 3. 게시물을 수정
 	//---------------------------------
 	@PostMapping("/modify")
-	public String modify(BoardDTO dto, RedirectAttributes rttrs)
+	public String modify(
+			BoardDTO dto,
+			@ModelAttribute("cri")Criteria cri,
+			RedirectAttributes rttrs)
 		throws ControllerException {
 		log.trace("modify() invoked.");
 		
@@ -104,8 +109,10 @@ public class BoardController {
 			boolean isModify = service.modify(dto);
 			
 			rttrs.addFlashAttribute("result", isModify ? "SUCCESS(" + dto.getBno() + ")" : "FAILURE");
+			rttrs.addAttribute("bno", dto.getBno());
+			rttrs.addAttribute("currPage", cri.getPagesPerPage());
 			
-			return "redirect:/board/list";
+			return "redirect:/board/get";
 			
 		} catch (Exception e) {
 			throw new ControllerException(e);
@@ -118,7 +125,10 @@ public class BoardController {
 	//-- 4. 게시물을 삭제
 	//---------------------------------
 	@PostMapping("/remove")
-	public String remove(BoardDTO dto, RedirectAttributes rttrs)
+	public String remove(
+			BoardDTO dto,
+			Criteria cri,
+			RedirectAttributes rttrs)
 		throws ControllerException {
 		log.trace("remove() invoked.");
 		
@@ -126,6 +136,7 @@ public class BoardController {
 			boolean isRemove = service.remove(dto);
 			
 			rttrs.addAttribute("result", isRemove ? "SUCCESS(" + dto.getBno() + ")" : "FAILURE");
+			rttrs.addAttribute("currPage", cri.getCurrPage());
 			
 			return "redirect:/board/list";
 			
@@ -140,14 +151,17 @@ public class BoardController {
 	//-- 5. 게시물 1개를 상세조회
 	//---------------------------------
 	@GetMapping("/get")
-	public void get(BoardDTO dto, Model model) throws ControllerException {
+	public void get(
+			BoardDTO dto,
+			@ModelAttribute("cri")Criteria cri,
+			Model model) throws ControllerException {
 		log.trace("get() invoked.");
 		
 		try {
 			BoardVO vo = service.get(dto);
 			log.info("\t+ vo : {}", vo);	
 			
-			model.addAttribute("vo", vo);
+			model.addAttribute("board", vo);
 			
 		} catch (Exception e) {
 			throw new ControllerException(e);
@@ -167,16 +181,6 @@ public class BoardController {
 	
 	
 	//---------------------------------
-	//-- 7. 게시물 상제화면, 수정호면으로 이동
-	//---------------------------------
-	@GetMapping({"/get", "/modify"})
-	public void getAndModify() {
-		
-	} // getAndModify
-	
-	
-	
-	//---------------------------------
 	//-- 8. 전체게시물 조회 (페이징 처리)
 	//---------------------------------
 	@GetMapping("/list")
@@ -189,8 +193,12 @@ public class BoardController {
 			
 			PageDTO pageDTO = new PageDTO(cri, this.service.getTotal());
 			
+			Date currTime = service.getCurrentTime();		// 현재 시각 구하기
+			log.info("currTime : {}", currTime);
+			
 			model.addAttribute("board", list);
 			model.addAttribute("pageMaker", pageDTO);
+			model.addAttribute("currTime", currTime);
 			
 		} catch (Exception e) {
 			throw new ControllerException(e);
