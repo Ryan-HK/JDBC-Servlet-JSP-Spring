@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.0/jquery-migrate.min.js"></script>
 	
+	<script src="/resources/js/reply.js"></script>
 
 	<style>
 		section {
@@ -213,7 +214,11 @@
 	</style>
 
 	<script>
+
+
+
 		$(function() {
+			console.log("버튼 자바스크립트 ");
 
 			// 게시글 리스트로 이동
 			$("#list-btn").on('click', function(){
@@ -245,27 +250,90 @@
 				formObj.submit();
 			})
 
+		})
 
-			// 리플 답글달기 활성화
-			$(".show-comment-form").on('click', function(){
-				let check = $(this).parents(".comment").children(".comment-div2");
 
-				if(check.css("display") == "none"){
-					check.show();
-				} else {
-					check.hide();
+		$(function (){
+
+
+			console.log("============")
+			console.log("JS TEST");
+
+			var bnoValue = '<c:out value="${board.bno}"/>';
+			console.log("bnoValue : " + bnoValue);
+
+			replyService.getList({bno:bnoValue, page:1}, function(data){
+
+				let list = data.list;
+				let str = "";
+				let replyDiv = $(".wrap_comment");
+
+				for(var i=0, len = list.length; i<len; i++){
+					
+					var replyer = list[i].replyer;
+					var replyDate = list[i].replyDate;
+					var reply = list[i].reply;
+
+					
+
+				str += 
+				`<div class="comment">
+				<form action="#" class="comment-div1">
+					<div class="comment-col1">
+						<div class="comment-writer">
+							<span class="font-14-500">\${replyer}</span>
+							&nbsp;<span class="font-12-500">\${replyDate}</span>
+						</div>
+
+						<div class="comment-btn-box font-14-500">
+							<button type=button class="comment-btn show-comment-form">답글</button>
+							<button type=button class="comment-btn modify-comment-btn">수정</button>
+							<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
+							<button type=button class="comment-btn delete-comment-btn">삭제</button>
+						</div>
+						
+					</div>
+					<textarea name="" id="" class="comment-col2">\${reply}</textarea>
+				</form>
+
+				<div class="comment-div2">
+
+					<form action="#" class="register-comment font-14-500" id="register-comment">
+						<div class="register-comment-writer">
+							닉네임 <input type="text" name="" id="" readonly>
+						</div>
+
+
+						<textarea name="" id="" class="register-comment-text"></textarea>
+
+
+						<div class="register-comment-btn">
+							<button type="submit" id="reply-btn" class="comment-btn">
+								등록
+							</button>
+						</div>
+					</form>		
+				</div>
+				</div>`;
 				}
+
+				replyDiv.html(str);
+
+				// 리플 답글달기 활성화
+				$(".show-comment-form").on('click', function(){
+					console.log("댓글 답글달기 버튼이 클릭되었습니다.");
+					let check = $(this).parents(".comment").children(".comment-div2");
+
+					if(check.css("display") == "none"){
+						check.show();
+					} else {
+						check.hide();
+					}
+				})
+
 			})
 
-			// 댓글 수정 활성화
-			$(".modify-comment-btn").on('click', function(){
-				
-				$(this).hide();
-				$(this).next().show();
-				
-			})
-
-
+			
 		})
 	</script>
 
@@ -341,88 +409,52 @@
 				</div>
 			</form>
 
-			<!-- <div class="comment-box">
+			<div class="comment-box">
 				<div class="comment-title">
 					<span class="font-18-700">댓글</span>
 				</div>
 
-				<div class="comment">
-					<form action="#" class="comment-div1">
-						<div class="comment-col1">
-							<div class="comment-writer">
-								<span class="font-14-500">닉네임</span>
-								&nbsp;<span class="font-12-500">날짜</span>
-							</div>
+				<div class="wrap_comment">
+					<!-- <div class="comment">
+						<form action="#" class="comment-div1">
+							<div class="comment-col1">
+								<div class="comment-writer">
+									<span class="font-14-500">닉네임</span>
+									&nbsp;<span class="font-12-500">날짜</span>
+								</div>
 
-							<div class="comment-btn-box font-14-500">
-								<button type=button class="comment-btn show-comment-form">답글</button>
-								<button type=button class="comment-btn modify-comment-btn">수정</button>
-								<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
-								<button type=button class="comment-btn delete-comment-btn">삭제</button>
+								<div class="comment-btn-box font-14-500">
+									<button type=button class="comment-btn show-comment-form">답글</button>
+									<button type=button class="comment-btn modify-comment-btn">수정</button>
+									<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
+									<button type=button class="comment-btn delete-comment-btn">삭제</button>
+								</div>
+								
 							</div>
-							
-						</div>
-						<textarea name="" id="" class="comment-col2"></textarea>
-					</form>
+							<textarea name="" id="" class="comment-col2"></textarea>
+						</form>
 
-					<div class="comment-div2">
+						<div class="comment-div2">
 
-						<form action="#" class="register-comment font-14-500" id="register-comment">
-							<div class="register-comment-writer">
-								닉네임 <input type="text" name="" id="" readonly>
-							</div>
-		
-		
-							<textarea name="" id="" class="register-comment-text"></textarea>
-		
-		
-							<div class="register-comment-btn">
-								<button type="submit" id="reply-btn" class="comment-btn">
-									등록
-								</button>
-							</div>
-						</form>		
-					</div>		
+							<form action="#" class="register-comment font-14-500" id="register-comment">
+								<div class="register-comment-writer">
+									닉네임 <input type="text" name="" id="" readonly>
+								</div>
+			
+			
+								<textarea name="" id="" class="register-comment-text"></textarea>
+			
+			
+								<div class="register-comment-btn">
+									<button type="submit" id="reply-btn" class="comment-btn">
+										등록
+									</button>
+								</div>
+							</form>		
+						</div>		
+					</div> -->
 				</div>
 
-				<div class="comment">
-					<form action="#" class="comment-div1">
-						<div class="comment-col1">
-							<div class="comment-writer">
-								<span class="font-14-500">닉네임</span>
-								&nbsp;<span class="font-12-500">날짜</span>
-							</div>
-
-							<div class="comment-btn-box font-14-500">
-								<button type=button class="comment-btn show-comment-form">답글</button>
-								<button type=button class="comment-btn modify-comment-btn">수정</button>
-								<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
-								<button type=button class="comment-btn delete-comment-btn">삭제</button>
-							</div>
-							
-						</div>
-						<textarea name="" id="" class="comment-col2"></textarea>
-					</form>
-
-					<div class="comment-div2">
-
-						<form action="#" class="register-comment font-14-500" id="register-comment">
-							<div class="register-comment-writer">
-								닉네임 <input type="text" name="" id="" readonly>
-							</div>
-		
-		
-							<textarea name="" id="" class="register-comment-text"></textarea>
-		
-		
-							<div class="register-comment-btn">
-								<button type="submit" id="reply-btn" class="comment-btn">
-									등록
-								</button>
-							</div>
-						</form>		
-					</div>		
-				</div>
 
 				<form action="#" class="register-comment font-14-500" id="register-comment">
 					<div class="register-comment-writer">
@@ -440,7 +472,7 @@
 					</div>
 				</form>
 
-			</div> -->
+			</div>
 		</section>
 
 		<!-- secondary-a -->

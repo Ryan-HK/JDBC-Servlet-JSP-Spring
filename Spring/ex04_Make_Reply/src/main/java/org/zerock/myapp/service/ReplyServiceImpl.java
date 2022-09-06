@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.Criteria;
 import org.zerock.myapp.domain.ReplyDTO;
+import org.zerock.myapp.domain.ReplyPageDTO;
 import org.zerock.myapp.domain.ReplyVO;
 import org.zerock.myapp.exception.ServiceException;
 import org.zerock.myapp.mapper.ReplyMapper;
@@ -96,8 +97,15 @@ public class ReplyServiceImpl implements ReplyService {
 		log.trace("getList({},{}) invoked.", cri, dto);
 		
 		try {
+			// 특정 게시물 번호
+			Integer targetBno = dto.getBno();
+			log.info("\t+ targetBno : {}", targetBno);
 			
-			return this.mapper.getListWithPaging(cri, dto.getBno());
+			// 특정 게시물에 댓글 개수
+			int totalAmount = this.mapper.getTotalCount(targetBno);
+			
+			// 페이징 처리 된, 댓글 목록
+			return mapper.getListWithPaging(cri, targetBno);
 			
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -105,21 +113,22 @@ public class ReplyServiceImpl implements ReplyService {
 
 	} // getList
 
-	
-	//-- 6. 특정 게시물의 댓글 수 구하기
+
 	@Override
 	public int getTotal(BoardDTO dto) throws ServiceException {
 		log.trace("getTotal({}) invoked.", dto);
 		
 		try {
 			
-			return this.mapper.getTotalCount(dto.getBno());
+			return mapper.getTotalCount(dto.getBno());
 			
 		} catch (Exception e) {
 			throw new ServiceException(e);
-		} // try-catch
-		
-	} // getTotal
+		}
+	} // get Total
+
+
+
 	
 	
 	
