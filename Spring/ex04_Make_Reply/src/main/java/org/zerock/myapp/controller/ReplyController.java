@@ -95,4 +95,49 @@ public class ReplyController {
 	} // getList
 	
 	
+	//-- 3. 특정게시물의 댓글 수정
+	@PostMapping(
+			value = "/modify",
+			consumes = "application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE}
+			)
+	public ResponseEntity<String> modifyReply(@RequestBody ReplyDTO dto) throws ControllerException {
+		log.info("modify({}) invoked.", dto);
+		
+		try {
+			
+			boolean result = this.service.modify(dto);
+			
+			return result? new ResponseEntity<>("success", HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} catch (Exception e) {
+			throw new ControllerException(e);
+		}
+
+	} // modifyReply
+	
+	
+	@PostMapping(
+			value = "/remove",
+			consumes = "application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE}
+			)
+	public ResponseEntity<String> removeReply(@RequestBody ReplyDTO dto) throws ControllerException {
+		log.info("modify({}) invoked.", dto);
+		
+		try {
+			
+			boolean result = this.service.remove(dto);
+			
+			return result? new ResponseEntity<>("success", HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} catch (Exception e) {
+			throw new ControllerException(e);
+		}
+
+	} // removeReply
+	
+	
 } // end class

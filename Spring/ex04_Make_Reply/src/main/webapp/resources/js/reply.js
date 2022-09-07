@@ -3,6 +3,7 @@ console.log("Reply Module....");
 
 var replyService = (function () {
 
+    // 댓글목록 불러오기
     function getList(param, callback, error){
 
         let bno = param.bno;
@@ -28,10 +29,37 @@ var replyService = (function () {
             }
         })
 
-    } // get List
+    } // getList
+
+
+    // 댓글 추가
+    function add(reply, callback, error){
+        console.log(reply);
+        
+        $.ajax({
+            type: 'POST',
+            url : "/replies/new",
+            data : JSON.stringify(reply),   // 전송할 DATA
+            contentType : "application/json; charset=utf-8", // 전송할 DATA TYPE
+            
+            success : function (result, status, xhr){
+                if(callback){
+                    callback(result);
+                }
+            },
+
+            error : function (xhr, status, er){
+                if(error){
+                    error(er);
+                }
+            }
+        })
+
+    } // add
 
     return {
-        getList : getList
+        getList : getList,
+        add : add
     }
 
 })();

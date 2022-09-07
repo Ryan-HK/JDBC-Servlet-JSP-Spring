@@ -9,207 +9,17 @@
 	<link rel="stylesheet" href="/resources/css/ui.css">
 	<link rel="stylesheet" href="/resources/css/ui-page.css">
 	<link rel="stylesheet" href="/resources/css/font.css">
-	<link rel="stylesheet" href="/resources/css/board-list">
+	<link rel="stylesheet" href="/resources/css/board-list.css">
 
 	 <!-- jQuery 라이브러리 연동 방법 - 네트워크 전송방법 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.0/jquery-migrate.min.js"></script>
 	
 	<script src="/resources/js/reply.js"></script>
+	<script src="/resources/js/board.js"></script>
+	<script defer src="/resources/js/btn.js"></script>
 
 	<style>
-		section {
-			/* border: 5px solid red; */
-		}
-
-		/* 게시판 - 전체 영역(폼태그 영역) */
-		.board-register {
-			display: flex;
-			flex-direction: column;
-			
-			padding: 10px 10px;
-
-			align-items: center;
-			background-color: white;
-			/* border: 1px solid red; */
-		}
-
-		.board-title {
-			/* border: 1px solid blue; */
-			width: 100%;
-		}
-
-		.register-title {
-			display: flex;
-			justify-content: center;
-			/* border: 1px solid blue; */
-			width: 100%;
-		}
-
-		.register-writer {
-			display: flex;
-			justify-content: center;
-			/* border: 1px solid blue; */
-			width: 100%;
-		}
-
-		.register-content {
-			display: flex;
-			justify-content: center;
-			/* border: 1px solid blue; */
-			width: 100%;
-
-		}
-
-		.register-btns {
-			display: flex;
-			justify-content: center;
-			width: 100%;
-			/* border: 1px solid blue; */
-		}
-
-		.register-btn {
-			background-color: #666;
-			color: white;
-
-			height: 30px;
-			width: 80px;
-			border-radius: 5px;
-
-			margin: 10px 10px;
-		}
-
-		.register-btn:hover {
-			box-shadow: 0px 0px 3px 3px rgba(255, 7, 7, 0.589);
-		}
-
-		.register-col1 {
-			display: flex;
-			/* border: 1px solid green; */
-			width: 100%;
-		}
-		
-
-		.register-col2 {
-			width: 100%;
-			height: 30px;
-			background-color: white;
-			border: 1px solid black;
-		}
-
-		#writer:focus {
-			outline: none;
-		}
-		
-		.register-col3 {
-			width: 100%;
-			resize: none;
-			background-color: white;
-			border: 1px solid black;
-			min-height: 400px;
-		}
-
-		.register-text {
-			display: flex;
-			justify-content: center;
-			width: 100%;
-
-			margin-top: 10px;
-			
-			/* border: 5px solid red; */
-		}
-
-		#modify-btn-submit {
-			display: none;
-		}
-
-
-		/* 댓글부위 */
-
-
-
-		.comment-box {
-			display: flex;
-			flex-direction: column;
-			/* border: 2px solid blue; */
-			padding: 10px 10px;
-			width: 100%;
-			background-color: white;
-		}
-
-		.comment-div1 {
-			display: flex;
-			flex-direction: column;
-			
-			/* border: 1px solid green; */
-		}
-
-		.comment-col1 {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		.comment-writer{
-			width: 70%;
-			display: flex;
-			align-items: center;
-		}
-
-		.register-comment {
-			margin-top: 5px;
-			/* border: 2px solid red;; */
-			display: flex;
-			flex-direction: column;
-		}
-
-		.comment-col2 {
-			resize: none;
-			/* width: 100%; */
-			
-		}
-
-		.register-comment-text {
-			resize: none;
-			height: 60px;
-			margin-top: 10px;
-		}
-
-		.register-comment-btn {
-			display: flex;
-			justify-content: flex-end;
-		}
-
-
-		.line1 {
-			width: 100%;
-			height: 1px;
-			border-bottom: 1px solid black;
-			margin-top: 50px;
-		}
-
-		/* 답글달기 */
-		.comment-div2 {
-			margin-top: 15px;
-			display: none;
-		}
-		
-		.comment-div2 textarea {
-			box-shadow: 0px 0px 3px 3px rgba(255, 7, 7, 0.589);
-		}
-
-		.comment-btn {
-			background-color: #666;
-			height: 25px;
-			color: white;
-			border-radius: 5px;
-			margin: 3px 0;
-		}
-
-
-		/* 댓글 수정 */
-		.modify-comment-submit {
-			display: none;
-		}
 
 	</style>
 
@@ -217,124 +27,6 @@
 
 
 
-		$(function() {
-			console.log("버튼 자바스크립트 ");
-
-			// 게시글 리스트로 이동
-			$("#list-btn").on('click', function(){
-				console.log("리스트로 이동");
-				location.href = "/board/list?currPage=${param.currPage}";
-			})
-
-			// 게시글 수정하기 버튼 눌렀을 때, 수정버튼 활성화
-			$("#modify-btn").on('click', function(){
-				$("#modify-btn").hide();
-
-				$("#modify-btn-submit").show();
-
-				$(".modify-col").css({
-					boxShadow: "0px 0px 3px 3px rgba(255, 189, 7, 0.589)"
-				}).attr("disabled", false);
-
-				$(".board-title span").text("게시글 수정하기");
-
-				$(".comment-box").hide();
-			})
-
-			// 게시글 삭제하기
-			$("#delete-btn").on('click', function(){
-				let formObj = $(".board-register");
-
-				formObj.attr("action", "/board/remove");
-
-				formObj.submit();
-			})
-
-		})
-
-
-		$(function (){
-
-
-			console.log("============")
-			console.log("JS TEST");
-
-			var bnoValue = '<c:out value="${board.bno}"/>';
-			console.log("bnoValue : " + bnoValue);
-
-			replyService.getList({bno:bnoValue, page:1}, function(data){
-
-				let list = data.list;
-				let str = "";
-				let replyDiv = $(".wrap_comment");
-
-				for(var i=0, len = list.length; i<len; i++){
-					
-					var replyer = list[i].replyer;
-					var replyDate = list[i].replyDate;
-					var reply = list[i].reply;
-
-					
-
-				str += 
-				`<div class="comment">
-				<form action="#" class="comment-div1">
-					<div class="comment-col1">
-						<div class="comment-writer">
-							<span class="font-14-500">\${replyer}</span>
-							&nbsp;<span class="font-12-500">\${replyDate}</span>
-						</div>
-
-						<div class="comment-btn-box font-14-500">
-							<button type=button class="comment-btn show-comment-form">답글</button>
-							<button type=button class="comment-btn modify-comment-btn">수정</button>
-							<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
-							<button type=button class="comment-btn delete-comment-btn">삭제</button>
-						</div>
-						
-					</div>
-					<textarea name="" id="" class="comment-col2">\${reply}</textarea>
-				</form>
-
-				<div class="comment-div2">
-
-					<form action="#" class="register-comment font-14-500" id="register-comment">
-						<div class="register-comment-writer">
-							닉네임 <input type="text" name="" id="" readonly>
-						</div>
-
-
-						<textarea name="" id="" class="register-comment-text"></textarea>
-
-
-						<div class="register-comment-btn">
-							<button type="submit" id="reply-btn" class="comment-btn">
-								등록
-							</button>
-						</div>
-					</form>		
-				</div>
-				</div>`;
-				}
-
-				replyDiv.html(str);
-
-				// 리플 답글달기 활성화
-				$(".show-comment-form").on('click', function(){
-					console.log("댓글 답글달기 버튼이 클릭되었습니다.");
-					let check = $(this).parents(".comment").children(".comment-div2");
-
-					if(check.css("display") == "none"){
-						check.show();
-					} else {
-						check.hide();
-					}
-				})
-
-			})
-
-			
-		})
 	</script>
 
 </head>
@@ -415,58 +107,21 @@
 				</div>
 
 				<div class="wrap_comment">
-					<!-- <div class="comment">
-						<form action="#" class="comment-div1">
-							<div class="comment-col1">
-								<div class="comment-writer">
-									<span class="font-14-500">닉네임</span>
-									&nbsp;<span class="font-12-500">날짜</span>
-								</div>
-
-								<div class="comment-btn-box font-14-500">
-									<button type=button class="comment-btn show-comment-form">답글</button>
-									<button type=button class="comment-btn modify-comment-btn">수정</button>
-									<button class="comment-btn modify-comment-submit" type="submit">수정완료</button>
-									<button type=button class="comment-btn delete-comment-btn">삭제</button>
-								</div>
-								
-							</div>
-							<textarea name="" id="" class="comment-col2"></textarea>
-						</form>
-
-						<div class="comment-div2">
-
-							<form action="#" class="register-comment font-14-500" id="register-comment">
-								<div class="register-comment-writer">
-									닉네임 <input type="text" name="" id="" readonly>
-								</div>
-			
-			
-								<textarea name="" id="" class="register-comment-text"></textarea>
-			
-			
-								<div class="register-comment-btn">
-									<button type="submit" id="reply-btn" class="comment-btn">
-										등록
-									</button>
-								</div>
-							</form>		
-						</div>		
-					</div> -->
+					<!-- 댓글리스트 불려오는 영역 -->
 				</div>
 
 
 				<form action="#" class="register-comment font-14-500" id="register-comment">
 					<div class="register-comment-writer">
-						닉네임 <input type="text" name="" id="">
+						닉네임 <input type="text" name="" id="register-writer">
 					</div>
 
 
-					<textarea name="" id="" class="register-comment-text"></textarea>
+					<textarea name="" id="register-reply" class="register-comment-text"></textarea>
 
 
 					<div class="register-comment-btn">
-						<button type="submit" class="comment-btn">
+						<button type="button" class="comment-btn register-reply-btn">
 							등록
 						</button>
 					</div>
@@ -535,9 +190,10 @@
 			</ul>
 		</aside>
 		<!-- </div> -->
-
+		
 		<!-- footer -->
 		<footer class="footer">
+			
 			Lorem ipsum dolor sit amet.
 		</footer>
 	</div>
@@ -553,5 +209,141 @@
 		</div>
 	</div>
 
+	<script>
+		//------------------
+		// 댓글목록 불러오기
+		//------------------
+		$(function (){
+
+
+			var bnoValue = '<c:out value="${board.bno}"/>';
+			showList(1);
+			
+			
+			function showList(page){
+				console.log(bnoValue);
+				console.log(page);
+
+				replyService.getList({bno:bnoValue, page: page || 1}, function(data){
+
+				let list = data.list;
+				let str = "";
+				let replyDiv = $(".wrap_comment");
+
+				for(var i=0, len = list.length; i<len; i++){
+					
+					var replyer = list[i].replyer;
+					var replyDate = list[i].replyDate;
+					var reply = list[i].reply;
+
+				str += 
+				`<div class="comment">
+				<form action="#" class="comment-div1">
+					<div class="comment-col1">
+						<div class="comment-writer">
+							<span class="font-14-500">\${replyer}</span>
+							&nbsp;<span class="font-12-500">\${replyDate}</span>
+						</div>
+
+						<div class="comment-btn-box font-14-500">
+							<button type=button class="comment-btn show-comment-form" onclick="f_ReplyReplyBtnOn()">답글</button>
+							<button type=button class="comment-btn modify-comment-btn" onclick="f_modifyReplyBtnOn()">수정</button>
+							<button class="comment-btn modify-comment-submit" type="button" onclick="f_modifyReplySubmitBtn()">수정완료</button>
+							<button type=button class="comment-btn delete-comment-btn">삭제</button>
+						</div>
+						
+					</div>
+					<textarea name="" id="" class="comment-col2" disabled>\${reply}</textarea>
+				</form>
+
+				<div class="comment-div2">
+
+					<form action="#" class="register-comment font-14-500" id="register-comment">
+						<div class="register-comment-writer">
+							닉네임 <input type="text" name="" id="" readonly>
+						</div>
+
+
+						<textarea name="" id="" class="register-comment-text"></textarea>
+
+
+						<div class="register-comment-btn">
+							<button type="submit" id="reply-btn" class="comment-btn">
+								등록
+							</button>
+						</div>
+					</form>		
+				</div>
+				</div>`;
+				}
+
+				replyDiv.html(str);
+
+				//---------------------
+				// 댓글 수정하기
+				//---------------------
+				$(".modify-comment-submit").on('click', function (){
+					console.log("댓글 수정완료 버튼이 클릭되었습니다.");
+
+					$(this).hide();
+					$(this).parent().children(".modify-comment-btn").show();
+					$(this).parents(".comment-div1").children(".comment-col2").attr('disabled', true);
+					
+				})
+
+
+
+
+
+
+			})	
+
+			} //end showList
+			
+			//---------------------
+			// 댓글 등록하기
+			//---------------------
+			$(".register-reply-btn").on('click', function (){
+			// console.log('댓글등록 버튼 클릭');
+
+			var reply1 = $("#register-reply").val();
+			var replyer1 = $("#register-writer").val();
+			var bno1 = bnoValue;
+
+				var reply = {
+						
+					reply : $("#register-reply").val(),
+					replyer : $("#register-writer").val(),
+					bno : bnoValue
+				}
+				
+				replyService.add(reply, function(result){
+					alert(result);
+
+					showList(1);
+
+					$("#register-reply").val('');
+					replyer : $("#register-writer").val('');
+				})
+			}) //end 댓글등록버튼
+
+		}) //end Entry-Point
+
+
+
+		//---------------------
+		// 댓글 삭제하기
+		//---------------------
+		function f_removeReplyBtn(e) {
+				console.log('댓글삭제버튼이 클릭되었습니다.');
+				let ev = $(event.target);
+
+
+
+		}
+
+	</script>
+	
+	
 </body>
 </html>
