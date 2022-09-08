@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.myapp.domain.BoardDTO;
 import org.zerock.myapp.domain.Criteria;
@@ -96,19 +97,32 @@ public class ReplyController {
 	
 	
 	//-- 3. 특정게시물의 댓글 수정
-	@PostMapping(
-			value = "/modify",
+	@RequestMapping(
+			method = 
+			{RequestMethod.PUT,
+			RequestMethod.PATCH},
+			value = "/{rno}",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE}
 			)
-	public ResponseEntity<String> modifyReply(@RequestBody ReplyDTO dto) throws ControllerException {
-		log.info("modify({}) invoked.", dto);
+	public ResponseEntity<String> modifyReply(
+			@RequestBody ReplyDTO dto,
+			@PathVariable("rno") Integer rno
+			) throws ControllerException {
+		
+		log.info("modify({}, {}) invoked.", dto, rno);
 		
 		try {
+			dto.setRno(rno);
 			
 			boolean result = this.service.modify(dto);
 			
+			// 왜? ResponseEntity를 리턴값으로 지정한 이유?
+			// --> HTTP전송 시, Body에 payload(데이타)를 담을뿐만 아니라, status(상태코드)까지 전송하기 위함이다.
+			
+			//-- 성공 시, ResponseEntity에 "success"라는 String을 payload에 담고, status에는 OK (200번 CODE)를 담아 리턴한다.
 			return result? new ResponseEntity<>("success", HttpStatus.OK)
+					//-- 실패 시, Body에는 아무것도 담지 않으며, INTERNAL_SERVER_ERROR (500번 CODE)를 전송한다.
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		} catch (Exception e) {
@@ -118,15 +132,17 @@ public class ReplyController {
 	} // modifyReply
 	
 	
-	@PostMapping(
-			value = "/remove",
+	@RequestMapping(
+			value = "/{rno}",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE}
 			)
-	public ResponseEntity<String> removeReply(@RequestBody ReplyDTO dto) throws ControllerException {
-		log.info("modify({}) invoked.", dto);
+	public ResponseEntity<String> remove(@PathVariable Integer rno) throws ControllerException {
+		log.info("remove({}) invoked.", rno);
 		
 		try {
+			ReplyDTO dto = new ReplyDTO();
+			dto.setRno(rno);
 			
 			boolean result = this.service.remove(dto);
 			

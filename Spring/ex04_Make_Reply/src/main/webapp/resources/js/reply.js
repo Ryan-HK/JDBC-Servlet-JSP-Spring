@@ -2,8 +2,9 @@
 console.log("Reply Module....");
 
 var replyService = (function () {
-
+    //--------------------
     // 댓글목록 불러오기
+    //--------------------
     function getList(param, callback, error){
 
         let bno = param.bno;
@@ -31,11 +32,12 @@ var replyService = (function () {
 
     } // getList
 
-
+    //--------------------
     // 댓글 추가
+    //--------------------
     function add(reply, callback, error){
         console.log(reply);
-        
+
         $.ajax({
             type: 'POST',
             url : "/replies/new",
@@ -57,9 +59,37 @@ var replyService = (function () {
 
     } // add
 
+    //--------------------
+    // 댓글 수정
+    //--------------------
+    function modify(reply, callback, error){
+
+        $.ajax({
+            type: 'PUT',
+            url: '/replies/' + reply.rno,
+            data: JSON.stringify(reply),
+            contentType : "application/json; charset=utf-8",
+            
+            success : function(result, status, xhr){
+                if(callback){
+                    callback(result);
+                }
+            },
+
+            error : function (xhr, status, er){
+                if(error){
+                    error(er);
+                }
+            }
+
+        })
+
+    } // modify
+
     return {
         getList : getList,
-        add : add
+        add : add,
+        modify : modify
     }
 
 })();

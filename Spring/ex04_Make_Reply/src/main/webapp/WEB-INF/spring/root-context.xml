@@ -37,7 +37,7 @@
 
    <!-- === MyBatis's DataSource Configuration === -->
 
-   <bean primary="true" id="pooledDataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource" destroy-method="forceCloseAll" >
+   <bean primary="false" id="pooledDataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource" destroy-method="forceCloseAll" >
       <description>MyBatis Pooled Data Source</description>
 
       <property name="driver" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
@@ -55,7 +55,7 @@
 
 
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
-      <property name="dataSource" ref="pooledDataSource"></property>
+      <property name="dataSource" ref="hikariDataSource"></property>
       <!-- <property name="dataSource" ref="hikariDataSource"></property> -->
 
       <property name="configLocation" value="classpath:mybatis-config.xml" ></property>

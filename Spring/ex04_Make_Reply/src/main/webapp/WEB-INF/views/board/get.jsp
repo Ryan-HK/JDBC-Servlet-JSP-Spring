@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.0/jquery-migrate.min.js"></script>
 	
-	<script src="/resources/js/reply.js"></script>
+	<script async src="/resources/js/reply.js"></script>
 	<script src="/resources/js/board.js"></script>
 	<script defer src="/resources/js/btn.js"></script>
 
@@ -208,15 +208,17 @@
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque exercitationem odio, modi laboriosam a perspiciatis est delectus quisquam obcaecati vel eos natus ipsam quasi reprehenderit nihil eligendi quam aliquid! Totam vitae quis, obcaecati quos, ut aut eveniet architecto sed harum ea deleniti itaque saepe unde nulla?
 		</div>
 	</div>
-
+	
 	<script>
 		//------------------
 		// 댓글목록 불러오기
 		//------------------
 		$(function (){
 
-
+			// 현재 게시글 번호를 바인딩
 			var bnoValue = '<c:out value="${board.bno}"/>';
+
+			// HTML 파씽이 완료 후, showList함수 호출 (댓글목록 불러오기)
 			showList(1);
 			
 			
@@ -235,25 +237,29 @@
 					var replyer = list[i].replyer;
 					var replyDate = list[i].replyDate;
 					var reply = list[i].reply;
+					var rno = list[i].rno;
 
 				str += 
 				`<div class="comment">
 				<form action="#" class="comment-div1">
+					
 					<div class="comment-col1">
 						<div class="comment-writer">
-							<span class="font-14-500">\${replyer}</span>
-							&nbsp;<span class="font-12-500">\${replyDate}</span>
+							
+							<span class="font-14-500" id="replyer-\${rno}">\${replyer}</span>
+							&nbsp;<span class="font-12-500" id="replyDate-\${rno}">\${replyDate}</span>
 						</div>
 
 						<div class="comment-btn-box font-14-500">
 							<button type=button class="comment-btn show-comment-form" onclick="f_ReplyReplyBtnOn()">답글</button>
 							<button type=button class="comment-btn modify-comment-btn" onclick="f_modifyReplyBtnOn()">수정</button>
-							<button class="comment-btn modify-comment-submit" type="button" onclick="f_modifyReplySubmitBtn()">수정완료</button>
+							<button class="comment-btn modify-comment-submit" type="button">수정완료</button>
 							<button type=button class="comment-btn delete-comment-btn">삭제</button>
+							<input type="hidden" class="comment-rno" value="\${rno}">
 						</div>
 						
 					</div>
-					<textarea name="" id="" class="comment-col2" disabled>\${reply}</textarea>
+					<textarea id="reply-\${rno}" class="comment-col2" disabled>\${reply}</textarea>
 				</form>
 
 				<div class="comment-div2">
@@ -275,9 +281,19 @@
 					</form>		
 				</div>
 				</div>`;
+
+
 				}
+				
 
 				replyDiv.html(str);
+
+				var test = `replyer-73`
+				console.log(test);
+				
+
+				var test2 = $(`#\${test}`).text();
+				console.log(test2);
 
 				//---------------------
 				// 댓글 수정하기
@@ -285,33 +301,54 @@
 				$(".modify-comment-submit").on('click', function (){
 					console.log("댓글 수정완료 버튼이 클릭되었습니다.");
 
-					$(this).hide();
-					$(this).parent().children(".modify-comment-btn").show();
-					$(this).parents(".comment-div1").children(".comment-col2").attr('disabled', true);
-					
-				})
+					// 댓글 rno 변수 바인딩
+					let rno = $(this).siblings("input").val();
+
+					var reply = {
+						rno : rno,
+						replyer : $(`#replayer-\${rno}`).text(),
+						replyDate : $(`#replyDate-\${rno}`).text(),
+						reply : $(`#reply-\${rno}`).val()
+					};
+
+					replyService.modify(reply, function(result){
+
+						alert(result);
+						$(this).hide();
+						$(this).parent().children(".modify-comment-btn").show();
+						$(this).parents(".comment-div1").children(".comment-col2").attr('disabled', true);
+
+						showList(1);
+
+					});
+	
+				}) //end::Reply-Modify event handler
+
+
+								//---------------------
+				// 댓글 수정하기
+				//---------------------
+
+
+			}) //end::replyServuce.getList()	
 
 
 
 
-
-
-			})	
 
 			} //end showList
-			
+		
 			//---------------------
 			// 댓글 등록하기
 			//---------------------
 			$(".register-reply-btn").on('click', function (){
 			// console.log('댓글등록 버튼 클릭');
 
-			var reply1 = $("#register-reply").val();
-			var replyer1 = $("#register-writer").val();
-			var bno1 = bnoValue;
+				var reply1 = $("#register-reply").val();
+				var replyer1 = $("#register-writer").val();
+				var bno1 = bnoValue;
 
 				var reply = {
-						
 					reply : $("#register-reply").val(),
 					replyer : $("#register-writer").val(),
 					bno : bnoValue
@@ -327,20 +364,16 @@
 				})
 			}) //end 댓글등록버튼
 
+
+
+
+
+
 		}) //end Entry-Point
 
 
 
-		//---------------------
-		// 댓글 삭제하기
-		//---------------------
-		function f_removeReplyBtn(e) {
-				console.log('댓글삭제버튼이 클릭되었습니다.');
-				let ev = $(event.target);
 
-
-
-		}
 
 	</script>
 	
