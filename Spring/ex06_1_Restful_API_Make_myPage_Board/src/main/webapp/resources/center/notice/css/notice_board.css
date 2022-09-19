@@ -1,0 +1,145 @@
+section {
+    margin: 40px auto;
+}
+
+
+/* 게시판 큰 틀 */
+.notice_board { 
+    margin-top: 100px;
+    margin-left: 20px;
+}
+/* 게시판*/
+.notice_board_outter{
+    margin: 0 auto;
+}
+.notice_board_inner {
+    box-shadow: 0px 0px 5px 0px gray;
+    margin-top: 20px;
+
+    width: 1050px;
+    height: 100%;
+    max-height: 1300px;
+}
+
+#notice_board_table{
+    max-height: 100%;
+    width: 100%;
+}
+
+.notice_board_menu{   
+    border-bottom: 3px solid gray;
+}
+
+
+/* 게시판 제목 */
+#notice_board_title {
+    float: left;
+    margin-bottom: 10px;
+}
+
+/* 테이블 header */
+.menu_title{
+    width: 500px;
+    text-align: center;
+}
+.menu_num{
+    width: 60px;
+    text-align: center;
+}
+
+.menu_writer, .menu_date, .menu_up{
+    
+    text-align: center;
+    width: 100px;
+}
+.menu_up{
+    width: 55px;
+}
+.menu_date{
+    width: 100px;
+}
+
+/* 컨텐츠 */
+
+.contnet{
+    border-bottom: 1px solid gray;
+    height: 40px;
+    text-align: center;
+}
+
+.board_table{
+    height: 50px;
+    
+}
+
+/* ============================= */
+.hr-1 {
+    width: 1050px;
+
+    border: solid 1px black;
+
+    display: block;
+}
+
+
+/* 검색 */
+.search {
+    float: right;
+    margin-bottom: 20px;
+}
+
+.search>input {
+    float: left;
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+
+    border: 1px solid rgb(20 167 255);
+    padding: 5px;
+}
+
+.search>input:focus{
+    outline: none;
+    border: 1px solid rgb(20 167 255);
+    border-radius: 5px;
+}
+
+.search>button {
+    background-color: white;
+    border: none;
+    color: rgb(20 167 255);
+    font-size: 22px;
+    margin-left: 10px;
+    margin-top: -2px;
+}
+
+/* a태그 호버 이미지 삭제 */
+.deal_aTag, .aTile, .deal_aTag:hover, .aTile:hover{
+    text-decoration-line: none;
+    color:black ;
+}
+
+
+/* 버튼 */
+.hot_button>button{
+    background-color: white;
+    border: none;
+    width: 50px;
+    color: red;
+    font-size: 35px;
+    float: left;
+    margin-left: -10px;
+}
+
+.board_write>button{
+    background-color: white;
+    border: none;
+    width: 130px;
+    float: right;
+    margin-right: -16px;
+    font-size: 22px;
+    margin-top: 10px;
+
+    
+}
+

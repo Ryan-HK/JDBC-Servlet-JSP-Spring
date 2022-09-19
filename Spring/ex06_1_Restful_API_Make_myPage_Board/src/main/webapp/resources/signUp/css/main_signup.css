@@ -1,0 +1,85 @@
+.s_box_board{
+    margin: 0 auto;
+    width: 550px;    
+}
+
+.s_box_board2{
+    padding: 12px;
+    border: none; /* 테두리 없애 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);    /* 그림자 */
+}
+
+.form-control{
+    width: 300px;
+    height: 30px;
+    
+    font-size: 13px;
+}
+
+.form-control-sm{
+    width: 92px;
+    height: 30px;
+
+    font-size: 13px;
+}
+
+.essential_info{
+    text-align: right;
+
+}
+
+.name2{
+    margin-top: 15px;
+}
+
+.table{
+    border-bottom: white;
+}
+
+th, td{
+    text-align: left;
+    vertical-align: middle;
+}
+
+.profile{
+    width: 100px;
+    height: 100px;
+}
+
+.btn-sm{
+    color: white;
+    background-color: rgb(20 167 255);
+}
+
+.btn-primary{
+    color: white;
+    background-color: rgb(20 167 255);
+    
+    width: 86px;
+    height: 30px;
+
+    line-height: 1px;
+}
+
+.btn-secondary{
+    color: white;
+    background-color: rgb(180,180,180);
+}
+
+.sign_up{
+    width: 365px;
+    padding: 12px 16px;
+    
+    font-size: 20px;
+    
+    border-radius: 7px;
+    border: 0;
+    
+    margin-top: 10px;
+    margin-bottom: 15px;
+    
+    color: white;
+    background-color: rgb(20 167 255);
+}
+

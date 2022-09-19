@@ -1,0 +1,29 @@
+
+.s_box_content{
+    margin: 0 auto;
+}
+
+.card{
+    width:30rem;
+    border-radius:20px;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+}
+
+.form-signin{
+    width: 350px;
+    margin: 0 auto;
+}
+
+.card-title{
+    margin-top:30px;
+    
+}
+
+.btn-primary{
+    color: white;
+    background-color: rgb(20 167 255);
+}
+    
+	

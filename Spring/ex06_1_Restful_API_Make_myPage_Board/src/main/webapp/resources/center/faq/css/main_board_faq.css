@@ -1,0 +1,92 @@
+section {
+    margin: 40px auto;
+}
+
+.section_wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 1050px;
+    text-align: left;
+    /* background-color: bisque; */
+}
+
+.view{
+    width: 100%;
+}
+
+.faq_title{
+    margin-top: 30px;
+}
+
+.faq_title p {
+    float: left;
+    display: inline;
+}
+
+#faq_search{
+    display: inline;
+    float: right;
+}
+
+.hr-1 {
+    width: 100%;
+    border: solid 1px black;
+    display: block;
+}
+
+
+
+/* ========== 아코디언 메뉴 =========== */
+input[id*="answer"]{
+    display: none;
+}
+
+input[id*="answer"] + label {
+    display: block;
+    padding: 20px;
+    border: 1px solid black;
+    border-bottom: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+input[id*="answer"] + label em {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    display: inline-block;
+    background: url('/resources/center/faq/img/arrow.png') 0 0 no-repeat;
+}
+
+input[id*="answer"] + label + div {
+    max-height: 0;
+    transition: all .35s;
+    overflow: hidden;
+    border: 1px solid black;
+    background-color: azure;
+    border-top: 0;
+}
+
+input[id*="answer"] + label + div p {
+    display: inline-block;
+    padding: 20px;
+}
+
+input[id*="answer"]:checked + label + div {
+    max-height: 100px;
+}
+
+input[id*="answer"]:checked + label em {
+    background-position: 0 -30px;
+}
+
+/* ========== 아코디언 메뉴 =========== */
+
+/* 글쓰기 버튼 */
+.btn_color_blue{
+    background-color: rgb(20 167 255);
+    float: right;
+}

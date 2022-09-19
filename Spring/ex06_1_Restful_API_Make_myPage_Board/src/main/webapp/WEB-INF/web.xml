@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" 
+  id="WebApp_ID" 
+  version="4.0">
+
+	<display-name>momofit</display-name>
+
+
+	<!-- ============================= -->
+	<!-- 1. JSP 공통설정               -->
+	<!-- ============================= -->
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<page-encoding>UTF-8</page-encoding>
+			<include-prelude>/WEB-INF/views/include.jsp</include-prelude>
+			<trim-directive-whitespaces>true</trim-directive-whitespaces>
+			<default-content-type>text/html; charset=UTF-8</default-content-type>
+		</jsp-property-group>
+	</jsp-config>
+
+	<!-- ============================= -->
+	<!-- 2. 세션만료기간 설정          -->
+	<!-- ============================= -->
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<!-- ============================= -->
+	<!-- 3. 예외처리 설정(예외타입기반)-->
+	<!-- ============================= -->
+
+	<error-page>
+		<exception-type>java.lang.NullPointerException</exception-type>
+		<location>/WEB-INF/errors/null.jsp</location>
+	</error-page>
+	
+	<!-- ============================= -->
+	<!-- 3. 예외처리 설정(응답코드기반)-->
+	<!-- ============================= -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/errors/404.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errors/500.jsp</location>
+	</error-page>
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+
+		<!-- Handler : 웹브라우저에서 온 요청을 실제 처리하는 컨트롤러의 메소드를 의미 -->
+		<!-- NoHandlerFoundException -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- GET방식이든 POST방식이든 요청메시지에 포함된 전송 파라미터의 값이 깨지지 않도록 (ex: 한글)
+		 utf8 문자집합으로 인코딩을 미리 수행하는 역할 (선처리 : Pre-processing) -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf8</param-value>
+		</init-param>
+
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
+
+</web-app>

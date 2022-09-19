@@ -1,0 +1,165 @@
+section {
+    margin: 40px auto;
+}
+
+.section_wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deal_check_inner {
+    margin: 0 auto;
+    width: 250px;
+    height: 150px;
+}
+
+/* 중고거래 목록 */
+.deals_check {
+    margin-top: 100px;
+    margin-left: 20px;
+}
+
+.deal_check_box {
+    width: 250px;
+    height: 240px;
+    box-shadow: 1px 1px 5px -2px gray;
+    margin: 7px 7px 0px 4px;
+
+    border-radius: 7px 7px 7px 7px;
+    overflow: hidden;
+
+}
+
+#deal_title{
+    height: 50px;
+    float: left;
+    text-align: left;
+    margin-left: 10px;
+    overflow: hidden;
+}
+
+/* 배너(구매 판매 나눔) */
+#deal_ico{
+    width: 50px;
+    color: aliceblue;
+    background-color: green;
+
+    border-radius: 10px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.deal_check_img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* 글 호버시 그림자 */
+.deal_check_box:hover {
+    box-shadow: 0px 0px 10px rgb(129, 129, 129);
+
+    transition: all 0.2s;
+}
+
+.deals_check_inner {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    align-content: space-around;
+    justify-content: center;
+    
+    width: 1050px;
+    height: 1800px;
+}
+
+#deal_check_title {
+    margin-right: 40px;
+    margin-bottom: 60px;
+}
+
+.hr-1 {
+    width: 1050px;
+    margin-left: 11px;
+
+    border: solid 1px black;
+
+    display: block;
+}
+
+
+/* 검색 */
+.search {
+    float: right;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+
+.ico_select{
+    margin-right: 20px;
+    float: left;
+
+
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+
+    border: 1px solid rgb(20 167 255);
+    padding: 5px;
+}
+
+.search>input {
+    float: left;
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+
+    border: 1px solid rgb(20 167 255);
+    padding: 5px;
+}
+
+.search>input:focus,
+.ico_select{
+    outline: none;
+    border: 1px solid rgb(20 167 255);
+    border-radius: 5px;
+}
+
+.search>button {
+    background-color: white;
+    border: none;
+    color: rgb(20 167 255);
+    font-size: 22px;
+    margin-left: 10px;
+    margin-top: -2px;
+}
+
+.deal_aTag, .deal_aTag:hover{
+    text-decoration-line: none;
+    color:black ;
+}
+
+/* 버튼 */
+.hot_button>button{
+    background-color: white;
+    border: none;
+    width: 50px;
+    color: red;
+    font-size: 35px;
+    float: left;
+    margin-left: 10px;
+}
+
+.board_write>button{
+    background-color: white;
+    border: none;
+    width: 130px;
+    float: right;
+    margin-right: 10px;
+    font-size: 22px;
+    margin-top: 10px;
+}
