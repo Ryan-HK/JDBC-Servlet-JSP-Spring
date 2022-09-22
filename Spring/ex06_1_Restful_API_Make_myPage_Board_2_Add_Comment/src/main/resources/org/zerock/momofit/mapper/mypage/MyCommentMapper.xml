@@ -1,0 +1,76 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.momofit.mapper.mypage.MyCommentMapper">
+    
+    <select 
+        id="getMyCommentListWithPaging" 
+        resultType="org.zerock.momofit.domain.mypage.MyCommentVO">
+
+		SELECT /*+ LEADING(t1) USE_NL(t3) index_desc(t1 pk_comm) */
+		    t1.comm_no,
+		    t1.board_no,
+		    t1.text,
+		    t1.comm_date,
+		    t1.edit,
+		    t1.parent_no,
+		    t1.user_no,
+		    t2.title,
+		    t3.category_name
+		FROM 
+		    comm t1
+		INNER JOIN
+		    board t2
+		ON t1.board_no = t2.board_no
+		
+		INNER JOIN
+		    category t3
+		ON t2.category_no = t3.category_no
+
+        WHERE t1.user_no = #{cri.user_no}
+
+        <!-- 게시판 카테고리 선택 -->
+        <if test="cri.category > 0">
+            AND t2.category_no = #{cri.category}
+        </if>
+
+        <!-- 검색어 입력 여부확인 -->
+		<if test="cri.keyword != '' and cri.type == 0">
+            AND REGEXP_LIKE(t1.text, #{cri.keyword}, 'i')
+        </if>
+
+        OFFSET (#{cri.currPage}-1) * #{cri.amount} ROWS
+        FETCH NEXT #{cri.amount} ROWS ONLY
+
+    </select>
+
+    <select id="getMyCommentCount" resultType="int">
+        SELECT /*+ index_desc(t1 pk_comm) */ count(t1.comm_no)
+        FROM
+            comm t1
+        INNER JOIN
+            board t2
+        ON
+            t1.board_no = t2.board_no
+        WHERE
+            t1.user_no = #{cri.user_no}
+        
+        <!-- 게시판 카테고리 선택 -->
+        <if test="cri.category > 0">
+            AND t2.category_no = #{cri.category}
+        </if>
+
+        <!-- 검색어 입력 여부확인 -->
+        <if test="cri.keyword != '' and cri.type == 0">
+            AND REGEXP_LIKE(t1.text, #{cri.keyword}, 'i')
+        </if>
+        
+    </select>
+    
+    <delete id="deleteMyCommentReply">
+        DELETE FROM comm WHERE comm_no = #{comm_no}
+    </delete>
+    
+
+</mapper>

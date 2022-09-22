@@ -1,0 +1,60 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.momofit.mapper.mypage.MyBoardMapper">
+    
+    <!-- 마이페이지-내글 : 내가 쓴 게시글 "조회" -->
+    <select id="getListWithPaging" resultType="org.zerock.momofit.domain.mypage.MyBoardVO">
+        <!-- NESTED LOOP JOIN(중첩 루프 조인)을 이용한 Oracle Hint-->
+        <!-- Driving Table : board / Driven Table : category    -->
+		SELECT /*+ LEADING(t1) USE_NL(t2) index_desc(t1 pk_board) */
+		    *
+		FROM 
+            board t1
+		INNER JOIN category t2
+		ON t1.category_no = t2.category_no
+		WHERE t1.user_no = #{cri.user_no}
+        <!-- 게시판 카테고리가 선택 -->
+		<if test="cri.category > 0">
+		AND t1.category_no = #{cri.category}
+		</if>
+		
+        <!-- 검색어 입력 여부 및 검색Type 확인 -->
+		<if test="cri.keyword != '' and cri.type == 0">
+        AND REGEXP_LIKE(t1.title, #{cri.keyword}, 'i')
+        </if>
+        <if test="cri.keyword != '' and cri.type == 1">
+        AND REGEXP_LIKE(t1.title, #{cri.keyword}, 'i')
+        OR REGEXP_LIKE(t1.text, #{cri.keyword}, 'i')
+        </if>
+
+		OFFSET (#{cri.currPage} - 1) * #{cri.amount} ROWS
+		FETCH NEXT #{cri.amount} ROWS ONLY
+    </select>
+
+    <!-- 마이페이지-내글 : 내가 쓴 게시글 "총 개수 구하기" -->
+    <select id="getMyBoardCount" resultType="int">
+        SELECT /* index_desc(board) */ count(board_no)
+        FROM board
+        WHERE user_no = #{cri.user_no}
+        <if test="cri.category > 0">
+        AND category_no = #{cri.category}
+        </if>
+        <!-- REGEXP_LIKE와 정규식을 이용한 검색 -->
+        <if test="cri.keyword != '' and cri.type == 0">
+        AND REGEXP_LIKE(title, #{cri.keyword}, 'i')
+        </if>
+        <if test="cri.keyword != '' and cri.type == 1">
+        AND REGEXP_LIKE(title, #{cri.keyword}, 'i')
+        OR REGEXP_LIKE(text, #{cri.keyword}, 'i')
+        </if>
+    </select>
+
+    <!-- 마이페이지-내글 : 내가 쓴 게시글 "삭제" -->
+    <delete id="deleteMyboardArticle">
+        DELETE FROM board WHERE board_no = #{board_no}
+    </delete>
+
+
+</mapper>

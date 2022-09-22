@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.momofit.mapper.signUpMapper.signUpMapper">
+
+    <insert id="UserInsert">
+        INSERT INTO users (
+	        USER_NO, id, PASS, NICKNAME, EMAIL, USER_NAME, BIRTH, TEL, GENDER, USER_LOC,PROFILE_NAME,PROFILE_TEMP,PROFILE_PATH,
+	        PROFILE_INFO, SPORTS1, SPORTS2, SPORTS3
+        )
+        VALUES (
+        	USER_SEQ.nextval,
+            #{id},
+            #{pass},
+            #{nickname},
+            #{email},
+            #{user_name},
+            #{birth},
+            #{tel},
+            #{gender},
+            #{user_loc},
+            #{profile_name},
+            #{profile_temp},
+            #{profile_path},
+            #{profile_info},
+            #{sports1},
+            #{sports2},
+            #{sports3}
+        )
+    </insert>
+    
+    <select id="idCheck"  resultType="String">
+        SELECT ID FROM USERS WHERE ID = #{id}
+    </select>
+
+    <select id="nickNameCheck" resultType="String">
+        SELECT nickname FROM USERS WHERE nickname = #{nickname}
+    </select>
+
+</mapper>

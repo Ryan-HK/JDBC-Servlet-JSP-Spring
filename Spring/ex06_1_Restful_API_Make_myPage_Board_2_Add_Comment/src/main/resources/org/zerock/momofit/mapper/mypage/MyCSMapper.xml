@@ -1,0 +1,61 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.momofit.mapper.mypage.MyCSMapper">
+    
+    <!-- 1. 나의 Qna 글 조회 -->
+    <select 
+    id="getQnaListWithPaging" 
+    resultType="org.zerock.momofit.domain.mypage.MyQnaVO">
+        SELECT /*+ index_desc(qna) */
+            *
+        FROM
+            qna
+        WHERE user_no = #{cri.user_no}
+        <!-- 게시판 카테고리가 선택 // 0 : 처리중, 1: 처리완료 -->
+        <if test="cri.category > -1">
+        AND qna_result = #{cri.category}
+        </if>
+        OFFSET (#{cri.currPage} - 1) * #{cri.amount} ROWS
+        FETCH NEXT #{cri.amount} ROWS ONLY
+    </select>
+
+    <!-- 2. 나의 Qna 글 "개수" 조회 -->
+    <select id="getQnaCount" resultType="int">
+        SELECT /*+ index_desc(qna) */ count(qna_no)
+        FROM qna
+        WHERE user_no = #{cri.user_no}
+        <if test="cri.category > -1">
+        AND qna_result = #{cri.category}
+        </if>
+    </select>
+
+    <!-- 4. 나의 Report 내역 조회 -->
+    <select 
+    id="getReportListWithPaging" 
+    resultType="org.zerock.momofit.domain.mypage.MyReportVO">
+        SELECT /*+ index_desc(report) */
+        *
+        FROM
+            report
+        WHERE user_no = #{cri.user_no}
+        <!-- 게시판 카테고리가 선택 // 0 : 처리중, 1: 처리완료 -->
+        <if test="cri.category > -1">
+        AND report_result = #{cri.category}
+        </if>
+        OFFSET (#{cri.currPage} - 1) * #{cri.amount} ROWS
+        FETCH NEXT #{cri.amount} ROWS ONLY
+    </select>
+
+    <!-- 5. 나의 Reposrt 내역 "개수" 조회 -->
+    <select id="getReportCount" resultType="int">
+        SELECT /*+ index_desc(report) */ count(report_no)
+        FROM report
+        WHERE user_no = #{cri.user_no}
+        <if test="cri.category > -1">
+        AND report_result = #{cri.category}
+        </if>
+    </select>
+
+</mapper>
