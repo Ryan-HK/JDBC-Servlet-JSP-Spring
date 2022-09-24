@@ -36,6 +36,7 @@ public class MyCSServiceImpl implements MyCSService {
 		}
 		
 	} // getQnaList
+	
 
 	// 2. 내 Qna PageDTO 정보 획득
 	@Override
@@ -55,7 +56,22 @@ public class MyCSServiceImpl implements MyCSService {
 	} // getQnaPageDTO
 	
 	
+	// 3. 내 Qna PageDTO 정보 획득
+	@Override
+	public boolean removeQna(int qna_no) throws ServiceException {
+		log.trace("removeQna() invoked.");
+		
+		try {
+			
+			return this.myCSMapper.deleteMyQna(qna_no) == 1;
+			
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
 
+	} // removeQna
+	
+	
 	// 4. 내 Report 글 리스트 조회
 	@Override
 	public List<MyReportVO> getReportList(Criteria cri) throws ServiceException {
@@ -84,6 +100,22 @@ public class MyCSServiceImpl implements MyCSService {
 			throw new ServiceException(e);
 		}
 	} // getReportCount
+
+
+	// 6. 내 Report PageDTO 조회
+	@Override
+	public boolean removeReport(int report_no) throws ServiceException {
+		log.trace("removeReport() invoked.");
+		
+		try {
+			
+			return this.myCSMapper.deleteMyReport(report_no) == 1;
+			
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+
+	} // removeReport
 
 	
 	

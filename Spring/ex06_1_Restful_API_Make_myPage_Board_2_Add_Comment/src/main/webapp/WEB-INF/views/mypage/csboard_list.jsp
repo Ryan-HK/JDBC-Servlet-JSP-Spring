@@ -107,7 +107,7 @@
                                 <!-- Qna글목록 -->
                             </tbody>
                                 <!-- 게시글 삭제 버튼 --> 
-                                <button class="mypage-btn"> 
+                                <button class="mypage-btn delete-btn-qna"> 
                                     <span class="dropbtn_icon">삭제</span>
                                 </button>
                         </table>
@@ -147,7 +147,7 @@
                                 <!-- Report 글 목록 -->
                             </tbody>
                                 <!-- 게시글 삭제 버튼 -->
-                                <button class="mypage-btn"> 
+                                <button class="mypage-btn delete-btn-report"> 
                                     <span class="dropbtn_icon">삭제</span>
                                 </button>
                         </table>
@@ -234,7 +234,7 @@
                         str +=
                                 `<tr class="mypage-tbody-tr mypage-tr-border mp-tr">
                                     <!-- 게시글 하나 선택 체크박스 -->
-                                    <td clsss="mypage-checkbox mc-checkbox"><input type="checkbox" name="qna-check" value="\${qna_no}"></td>
+                                    <td clsss="mypage-checkbox mc-checkbox"><input type="checkbox" name="qna-check" class="qna-check" value="\${qna_no}"></td>
                                     <!-- 게시글 제목 -->`
 
                                     if(qna_result == 0){
@@ -358,18 +358,20 @@
             //---------------------
             // 게시글 삭제
             //---------------------
-            $(".mypage-btn").on('click', function() {
+            $(".delete-btn-qna").on('click', function() {
                 console.log("category : ", category);
                 console.log("page : ", page);
 
                 let removeResult = [];  // 삭제 Result결과
 
                 
-                $(".comment-check:checked").each(function () {
-                    var bno = $(this).val();
+                $(".qna-check:checked").each(function () {
+                    var qno = $(this).val();
+                    console.log("삭제가 실행됩니다 :",qno);
 
                     //Delete을 input:checkbox가 checked된 수 만큼 반복 호출
-                    mypageCommentService.removeReply(bno, function(result){
+                    mypageCSService.removeQna(qno, function(result){
+                        console.log("debug");
                         removeResult.push(result);
                     })         
                 })
@@ -444,7 +446,7 @@
                         str +=
                                 `<tr class="mypage-tbody-tr mypage-tr-border mp-tr">
                                     <!-- 게시글 하나 선택 체크박스 -->
-                                    <td clsss="mypage-checkbox mc-checkbox"><input type="checkbox" name="report-check" value="\${report_no}"></td>
+                                    <td clsss="mypage-checkbox mc-checkbox"><input type="checkbox" name="report-check" class="report-check" value="\${report_no}"></td>
                                     <!-- 게시글 제목 -->`
 
                                     if(report_result == 0){
@@ -568,18 +570,18 @@
             //---------------------
             // 게시글 삭제
             //---------------------
-            $(".mypage-btn").on('click', function() {
+            $(".delete-btn-report").on('click', function() {
                 console.log("category : ", category);
                 console.log("page : ", page);
 
                 let removeResult = [];  // 삭제 Result결과
 
                 
-                $(".comment-check:checked").each(function () {
-                    var bno = $(this).val();
+                $(".report-check:checked").each(function () {
+                    var rno = $(this).val();
 
                     //Delete을 input:checkbox가 checked된 수 만큼 반복 호출
-                    mypageCommentService.removeReply(bno, function(result){
+                    mypageCSService.removeReport(rno, function(result){
                         removeResult.push(result);
                     })         
                 })

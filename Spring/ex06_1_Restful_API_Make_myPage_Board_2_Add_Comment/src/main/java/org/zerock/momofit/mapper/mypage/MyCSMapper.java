@@ -25,7 +25,8 @@ public interface MyCSMapper {
 			@Param("cri")Criteria cri
 			) throws DAOException;
 	
-	
+	// 3. 내가 "문의사항" 삭제하기
+	public abstract int deleteMyQna(@Param("qna_no") int qna_no) throws DAOException;
 	
 	
 	//------------------------------------------
@@ -41,6 +42,10 @@ public interface MyCSMapper {
 	public abstract int getReportCount(
 			@Param("cri")Criteria cri
 			) throws DAOException;
+	
+	// 6. 내가 "문의사항" 삭제하기
+	public abstract int deleteMyReport(@Param("report_no") int report_no) throws DAOException;
+	
 	
 	
 } // end interface

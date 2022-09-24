@@ -6,7 +6,7 @@
 .springBeans
 
 /target
-/sec/test
+/src/test
 
 ### Eclipse ###
 .metadata

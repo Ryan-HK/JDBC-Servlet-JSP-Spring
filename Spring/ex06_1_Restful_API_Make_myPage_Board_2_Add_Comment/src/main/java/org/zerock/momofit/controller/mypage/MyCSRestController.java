@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,6 +79,28 @@ public class MyCSRestController {
 	} // getMyPageQnaList
 	
 	
+	// 2. QNA 글 삭제
+	@DeleteMapping(
+			value = "/qna/articles/{qno}",
+			produces = MediaType.TEXT_PLAIN_VALUE
+			)
+	public ResponseEntity<String> removeMyPageQna(
+			@PathVariable("qno") int qna_no
+			) throws ControllerException{
+		log.trace("removeMyPageQna() invoked.");
+		
+		try {
+			
+			boolean result = this.myCSService.removeQna(qna_no);
+			
+			return new ResponseEntity<>(result ? String.valueOf(qna_no) : "", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			throw new ControllerException(e);
+		}
+		
+	} // removeMyPageQna
+	
 	
 	
 	// 3. Report 글 리스트 조회
@@ -126,5 +149,29 @@ public class MyCSRestController {
 			throw new ControllerException(e);
 		}
 	} // getMyPageReportList
+	
+	
+	
+	// 4. Report 글 삭제
+	@DeleteMapping(
+			value = "/report/articles/{rno}",
+			produces = MediaType.TEXT_PLAIN_VALUE
+			)
+	public ResponseEntity<String> removeMyPageReport(
+			@PathVariable("rno") int report_no
+			) throws ControllerException{
+		log.trace("removeMyPageReport() invoked.");
+		
+		try {
+			
+			boolean result = this.myCSService.removeReport(report_no);
+			
+			return new ResponseEntity<>(result ? String.valueOf(report_no) : "", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			throw new ControllerException(e);
+		}
+		
+	} // removeMyPageQna
 	
 } // end class

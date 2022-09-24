@@ -69,8 +69,58 @@ var mypageCSService = (function () {
 
     } // getReportList
 
+
+    function removeQna(qno, callback, error){
+
+        $.ajax({
+            type: 'delete',
+            url : '/mypage/cs/qna/articles/' + qno,
+            async : false,
+
+            success : function(result){
+                if(callback){
+                    callback(result);
+                }
+            },
+
+            error : function(xhr, status, er){
+                if(error){
+                    error(er);
+                }
+            }
+        });
+
+    } // removeQna
+
+
+    function removeReport(rno, callback, error){
+
+        $.ajax({
+            type: 'delete',
+            url : '/mypage/cs/report/articles/' + rno,
+            async : false,
+
+            success : function(result){
+                if(callback){
+                    callback(result);
+                }
+            },
+
+            error : function(xhr, status, er){
+                if(error){
+                    error(er);
+                }
+            }
+
+        }) // ajax
+
+    } // removeReport
+
+
     return {
         getQnaList : getQnaList,
-        getReportList : getReportList
+        getReportList : getReportList,
+        removeQna : removeQna,
+        removeReport : removeReport
     }
 })();

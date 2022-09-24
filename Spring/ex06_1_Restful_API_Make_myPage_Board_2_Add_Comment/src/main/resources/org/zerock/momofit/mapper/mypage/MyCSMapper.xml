@@ -31,6 +31,11 @@
         </if>
     </select>
 
+    <!-- 3. 나의 Qna 글 "삭제" 하기 -->
+    <delete id="deleteMyQna">
+        DELETE FROM qna WHERE qna_no = #{qna_no}
+    </delete>
+
     <!-- 4. 나의 Report 내역 조회 -->
     <select 
     id="getReportListWithPaging" 
@@ -57,5 +62,10 @@
         AND report_result = #{cri.category}
         </if>
     </select>
+
+    <!-- 6. 나의 Report "삭제" 하기 -->
+    <delete id="deleteMyReport">
+        DELETE FROM report WHERE report_no = #{report_no}
+    </delete>
 
 </mapper>
