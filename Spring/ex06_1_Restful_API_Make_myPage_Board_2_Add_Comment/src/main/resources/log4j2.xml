@@ -14,7 +14,7 @@
 
     <Loggers>
         <Logger name="org.zerock.momofit" level="trace" />
-        <Logger name="org.springframework" level="warn" />
+        <Logger name="org.springframework" level="info" />
         <Logger name="com.zaxxer.hikari" level="warn" />
 
 

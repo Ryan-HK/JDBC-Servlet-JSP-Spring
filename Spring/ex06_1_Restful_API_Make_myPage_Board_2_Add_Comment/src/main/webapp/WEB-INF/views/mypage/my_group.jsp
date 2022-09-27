@@ -148,14 +148,40 @@
     <!-- 부트스트랩 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <!-- 임시 유저정보를 Session에 저장 -->
+    <%@ page session="true" %>
+    <%@ page import = "org.zerock.momofit.domain.signUp.*" %>
+    <%
+        UserDTO dto = new UserDTO();
 
+        dto.setUser_no(1);
+        dto.setId("id1");
+        dto.setNickname("nickname1");
+        dto.setUser_name("user_name1");
+
+        session.setAttribute("userDTO", dto);
+    %>
+
+    <% 
+        UserDTO myDto = (UserDTO) session.getAttribute("userDTO");
+
+        Integer user_no = myDto.getUser_no();
+        String id = myDto.getId();
+
+        String nickname = myDto.getNickname();
+        String email = myDto.getEmail();
+        String user_name = myDto.getUser_name();
+
+    %>
 
     <script>
         $(function () {
             // session에서 User정보 얻기
-            // var uno = '<%=(String)session.getAttribute("uid")%>';
-            // 임시 회원번호 1번으로 바인딩
-            const uno = 1;
+            var uno = '<%= user_no %>';
+            var nickName = '<%= nickname %>';
+
+            console.log("user_no :", uno);
+            console.log("nickName :", nickName);
 
             // 그룹 페이지 초기화
             var page = 1;
@@ -241,7 +267,7 @@
                                         str += `<div class="none-group-edit"></div>`
                                     } 
 
-                        str +=         `<div><button class="mypage-group-func-btn mypage-blue-btn" onClick="change_end();"> 
+                        str +=         `<div><button class="mypage-group-func-btn mypage-blue-btn btn-group-chat" value="\${group_no}"> 
                                             <span class="font-14-500">채팅</span>
                                         </button>
                                         <button class="mypage-group-func-btn mypage-gray-btn"> 
@@ -249,7 +275,12 @@
                                         </button></div>                      
                                     </div>
                                 </div>`
+
+                        
+
+
                     } //  for
+
 
                     // 참여한 모임이 없을 때
                     if(listVO == null || listVO.length == 0){
@@ -290,6 +321,21 @@
 
                     pagingul.html(pagingli);
                     groupListBox.html(str);
+
+                    
+                    $(".btn-group-chat").on('click', function(){
+                            console.log("채팅 버튼이 클릭")
+                            var value = $(this).val();
+                            console.log("value :", value);
+
+                            var popupUrl = '/group/chat?group_no=' + value;
+                            var popupName = '채팅';
+                            var popupSize = 'width=400, height=600, left=800, top=200';
+                        
+                            window.open(popupUrl, popupName, popupSize);
+                    })
+
+
 
 
                     //---------------------

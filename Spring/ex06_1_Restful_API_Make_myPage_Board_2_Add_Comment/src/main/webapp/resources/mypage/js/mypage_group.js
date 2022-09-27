@@ -11,3 +11,17 @@ function change_ing()
 	$('.mypage-group-ing').show();
 } 
 
+
+$(function () {
+
+	
+	$(".chat-textarea").keypress(function(e){
+		if(e.keyCode==13) {
+			$(".chat-textarea-btn").click();
+			$(".chat-textarea").val('');
+			return false;
+		}
+		
+	});
+
+})
