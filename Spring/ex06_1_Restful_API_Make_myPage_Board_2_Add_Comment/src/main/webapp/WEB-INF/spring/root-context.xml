@@ -84,9 +84,12 @@
 	<aop:aspectj-autoproxy/>
 	<context:annotation-config/>
 
-
+	
+	<context:component-scan base-package="org.zerock.momofit.listener" />
 	<context:component-scan base-package="org.zerock.momofit.service"/>
 	<context:component-scan base-package="org.zerock.momofit.config"/>
+	<context:component-scan base-package="org.zerock.momofit.repository"/>
+	<context:component-scan base-package="org.zerock.momofit.interceptor"/>
 	<context:component-scan base-package="org.zerock.momofit.controller.chat" />
 	<mybatis-spring:scan base-package="org.zerock.momofit.mapper" />
 		

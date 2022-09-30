@@ -151,7 +151,9 @@
     <!-- 임시 유저정보를 Session에 저장 -->
     <%@ page session="true" %>
     <%@ page import = "org.zerock.momofit.domain.signUp.*" %>
-    <%
+
+
+	<%
         UserDTO dto = new UserDTO();
 
         dto.setUser_no(1);
@@ -161,6 +163,7 @@
 
         session.setAttribute("userDTO", dto);
     %>
+
 
     <% 
         UserDTO myDto = (UserDTO) session.getAttribute("userDTO");
